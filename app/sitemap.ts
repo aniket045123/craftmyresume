@@ -1,14 +1,32 @@
 import type { MetadataRoute } from "next"
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = "https://craftmyresume.in"
+  const baseUrl = "https://craftmyresume.com"
+
   return [
     {
-      url: `${base}/`,
+      url: baseUrl,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 1,
     },
-    // When you add guides, articles, or location pages, list them here (or generate dynamically).
+    {
+      url: `${baseUrl}/packages`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/about`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
+    {
+      url: `${baseUrl}/contact`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.5,
+    },
   ]
 }

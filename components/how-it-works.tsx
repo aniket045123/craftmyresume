@@ -1,329 +1,221 @@
 "use client"
 
-import type React from "react"
-
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import {
-  UploadCloud,
-  MessagesSquare,
-  FileCheck,
-  Rocket,
-  ChevronLeft,
-  ChevronRight,
-  Pause,
-  Play,
-  CheckCircle2,
-} from "lucide-react"
+import { CheckCircle2, FileText, MessageSquare, Download } from "lucide-react"
 
-type Props = {
-  emerald?: string
-  gold?: string
-  onGetStarted?: () => void
+interface HowItWorksInteractiveProps {
+  emerald: string
+  gold: string
+  onGetStarted: () => void
 }
 
-type Step = {
-  key: string
-  title: string
-  subtitle: string
-  bullets: string[]
-  img: string
-  icon: "upload" | "chat" | "check" | "rocket"
-}
+export default function HowItWorksInteractive({ emerald, gold, onGetStarted }: HowItWorksInteractiveProps) {
+  const [activeStep, setActiveStep] = useState(0)
 
-export default function HowItWorksInteractive({ emerald = "#0f5b4f", gold = "#d4af37", onGetStarted }: Props) {
-  const steps: Step[] = useMemo(
-    () => [
-      {
-        key: "share",
-        title: "Share Details",
-        subtitle: "Upload resume + target roles",
-        bullets: [
-          "Send your current resume or LinkedIn URL",
-          "Share target roles and job links (if any)",
-          "Highlight achievements you want to emphasize",
-        ],
-        img: "/intake-form-upload.png",
-        icon: "upload",
-      },
-      {
-        key: "call",
-        title: "Strategy Call",
-        subtitle: "20‑min alignment call",
-        bullets: [
-          "Clarify goals, domain and seniority",
-          "Pick ATS‑safe layout that fits your profile",
-          "Agree on voice, emphasis and turnaround",
-        ],
-        img: "/strategy-video-call-notes-resume-planning.png",
-        icon: "chat",
-      },
-      {
-        key: "draft",
-        title: "Draft & Review",
-        subtitle: "We write, you iterate",
-        bullets: [
-          "Outcome‑focused, quantified bullets",
-          "Keyword alignment for ATS & recruiter scan",
-          "Fast edits via comments or quick call",
-        ],
-        img: "/resume-review-ats.png",
-        icon: "check",
-      },
-      {
-        key: "deliver",
-        title: "Final Delivery",
-        subtitle: "Polished files, ready to use",
-        bullets: [
-          "PDF, DOCX, and plain‑text files",
-          "Tailoring checklist + quick keyword bank",
-          "20‑day edit support included",
-        ],
-        img: "/resume-final-delivery-download.png",
-        icon: "rocket",
-      },
-    ],
-    [],
-  )
+  const steps = [
+    {
+      id: 1,
+      title: "Upload Your Current Resume",
+      description: "Share your existing resume or career details through our secure intake form.",
+      icon: <FileText className="h-6 w-6" />,
+      image: "/intake-form-upload.png",
+      details: [
+        "Secure file upload system",
+        "Multiple format support (PDF, DOC, DOCX)",
+        "Career questionnaire for context",
+        "Privacy-first approach",
+      ],
+    },
+    {
+      id: 2,
+      title: "Strategy Call & Planning",
+      description: "Our expert writers analyze your background and discuss your target roles in a 1:1 consultation.",
+      icon: <MessageSquare className="h-6 w-6" />,
+      image: "/strategy-video-call-notes-resume-planning.png",
+      details: [
+        "15-minute strategy consultation",
+        "Target role alignment",
+        "Industry keyword research",
+        "ATS optimization planning",
+      ],
+    },
+    {
+      id: 3,
+      title: "Professional Writing & ATS Review",
+      description:
+        "We craft your resume with quantified achievements and run it through ATS scanners for optimization.",
+      icon: <CheckCircle2 className="h-6 w-6" />,
+      image: "/resume-review-ats.png",
+      details: [
+        "Expert resume writing",
+        "ATS compatibility testing",
+        "Keyword optimization",
+        "Achievement quantification",
+      ],
+    },
+    {
+      id: 4,
+      title: "Final Delivery & Support",
+      description: "Receive your polished resume in multiple formats with 20 days of revision support.",
+      icon: <Download className="h-6 w-6" />,
+      image: "/resume-final-delivery-download.png",
+      details: ["PDF and DOCX formats", "Cover letter included", "20-day revision window", "Tailoring guidelines"],
+    },
+  ]
 
-  const [active, setActive] = useState(0)
-  const [autoPlay, setAutoPlay] = useState(true)
-  const [hovering, setHovering] = useState(false)
-  const total = steps.length
-  const progressPct = ((active + 1) / total) * 100
-
-  // Autoplay: advance every 5s (pause on hover)
   useEffect(() => {
-    if (!autoPlay || hovering) return
-    const id = window.setInterval(() => {
-      setActive((i) => (i + 1) % total)
-    }, 5000)
-    return () => window.clearInterval(id)
-  }, [autoPlay, hovering, total])
-
-  const go = useCallback(
-    (dir: "prev" | "next") => {
-      setActive((i) => {
-        if (dir === "next") return (i + 1) % total
-        return (i - 1 + total) % total
-      })
-    },
-    [total],
-  )
-
-  const onKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLDivElement>) => {
-      if (e.key === "ArrowRight") go("next")
-      if (e.key === "ArrowLeft") go("prev")
-      if (e.key === "Home") setActive(0)
-      if (e.key === "End") setActive(total - 1)
-    },
-    [go, total],
-  )
-
-  const Icon = ({ name }: { name: Step["icon"] }) => {
-    if (name === "upload") return <UploadCloud className="h-4.5 w-4.5" />
-    if (name === "chat") return <MessagesSquare className="h-4.5 w-4.5" />
-    if (name === "check") return <FileCheck className="h-4.5 w-4.5" />
-    return <Rocket className="h-4.5 w-4.5" />
-  }
+    const interval = setInterval(() => {
+      setActiveStep((prev) => (prev + 1) % steps.length)
+    }, 4000)
+    return () => clearInterval(interval)
+  }, [steps.length])
 
   return (
-    <div
-      className="mt-2"
-      onMouseEnter={() => setHovering(true)}
-      onMouseLeave={() => setHovering(false)}
-      onKeyDown={onKeyDown}
-      tabIndex={0}
-      aria-label="Interactive how it works stepper"
-    >
-      {/* Progress header */}
-      <div className="mb-4 flex items-center justify-between gap-4">
-        <div className="flex items-center gap-2 text-sm">
-          <span className="font-medium" style={{ color: emerald }}>
-            Step {active + 1} of {total}
-          </span>
-          <span className="text-gray-500">• {steps[active].title}</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            onClick={() => setAutoPlay((v) => !v)}
-            className="h-8 rounded-full px-3 text-xs"
-            style={{ borderColor: emerald, color: emerald, backgroundColor: "white" }}
-            aria-pressed={autoPlay}
-            aria-label={autoPlay ? "Pause autoplay" : "Resume autoplay"}
-          >
-            {autoPlay ? <Pause className="h-3.5 w-3.5 mr-1" /> : <Play className="h-3.5 w-3.5 mr-1" />}
-            {autoPlay ? "Pause" : "Auto"}
-          </Button>
-          <div className="hidden sm:flex items-center gap-1">
-            <Button
-              variant="outline"
-              className="h-8 w-8 rounded-full p-0 bg-transparent"
-              style={{ borderColor: emerald, color: emerald, backgroundColor: "white" }}
-              onClick={() => go("prev")}
-              aria-label="Previous step"
+    <div className="w-full">
+      {/* Mobile: Horizontal scrolling chips */}
+      <div className="md:hidden mb-8">
+        <div className="flex gap-3 overflow-x-auto pb-4 scrollbar-hide">
+          {steps.map((step, index) => (
+            <button
+              key={step.id}
+              onClick={() => setActiveStep(index)}
+              className={`flex-shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-all ${
+                index === activeStep ? "text-white shadow-md" : "text-gray-600 bg-white border hover:bg-gray-50"
+              }`}
+              style={{
+                backgroundColor: index === activeStep ? emerald : undefined,
+                borderColor: index === activeStep ? emerald : "rgba(15,91,79,0.2)",
+              }}
             >
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="outline"
-              className="h-8 w-8 rounded-full p-0 bg-transparent"
-              style={{ borderColor: emerald, color: emerald, backgroundColor: "white" }}
-              onClick={() => go("next")}
-              aria-label="Next step"
-            >
-              <ChevronRight className="h-4 w-4" />
-            </Button>
-          </div>
+              Step {step.id}: {step.title}
+            </button>
+          ))}
         </div>
+
+        {/* Mobile content */}
+        <Card className="border shadow-sm">
+          <CardHeader>
+            <div className="flex items-center gap-3">
+              <div
+                className="h-10 w-10 rounded-full grid place-items-center"
+                style={{ backgroundColor: `rgba(15,91,79,0.1)` }}
+              >
+                <span style={{ color: emerald }}>{steps[activeStep].icon}</span>
+              </div>
+              <CardTitle className="text-lg" style={{ color: emerald }}>
+                {steps[activeStep].title}
+              </CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <img
+              src={steps[activeStep].image || "/placeholder.svg"}
+              alt={steps[activeStep].title}
+              className="w-full h-48 object-cover rounded-lg mb-4"
+            />
+            <p className="text-gray-700 mb-4">{steps[activeStep].description}</p>
+            <ul className="space-y-2">
+              {steps[activeStep].details.map((detail, i) => (
+                <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
+                  <CheckCircle2 className="h-4 w-4 mt-0.5" style={{ color: "#19c37d" }} />
+                  <span>{detail}</span>
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
       </div>
 
-      {/* Progress bar */}
-      <div className="mb-6 h-2 w-full rounded-full overflow-hidden" style={{ backgroundColor: "rgba(15,91,79,0.12)" }}>
-        <div
-          className="h-full rounded-full transition-all duration-500"
-          style={{
-            width: `${progressPct}%`,
-            background: `linear-gradient(90deg, ${gold} 0%, ${emerald} 100%)`,
-          }}
-          aria-hidden="true"
-        />
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Mobile chips */}
-        <div className="lg:hidden -mx-1 -mt-2 mb-1 overflow-x-auto">
-          <div className="px-1 flex items-center gap-2">
-            {steps.map((s, i) => (
+      {/* Desktop: Side-by-side layout */}
+      <div className="hidden md:grid md:grid-cols-12 gap-8 lg:gap-12">
+        {/* Left: Vertical stepper */}
+        <div className="md:col-span-5">
+          <div className="space-y-4">
+            {steps.map((step, index) => (
               <button
-                key={s.key}
-                onClick={() => setActive(i)}
-                className={`whitespace-nowrap rounded-full border px-3 py-1.5 text-xs font-medium transition ${
-                  i === active ? "shadow-sm" : "opacity-90"
+                key={step.id}
+                onClick={() => setActiveStep(index)}
+                className={`w-full text-left rounded-xl border p-4 transition-all hover:shadow-sm ${
+                  index === activeStep ? "shadow-md" : "hover:bg-gray-50"
                 }`}
                 style={{
-                  borderColor: i === active ? gold : "rgba(15,91,79,0.25)",
-                  color: i === active ? emerald : "rgba(15,91,79,0.9)",
-                  backgroundColor: i === active ? "rgba(212,175,55,0.12)" : "white",
+                  backgroundColor: index === activeStep ? "rgba(15,91,79,0.05)" : "white",
+                  borderColor: index === activeStep ? emerald : "rgba(15,91,79,0.15)",
                 }}
-                aria-current={i === active ? "step" : undefined}
               >
-                {i + 1}. {s.title}
+                <div className="flex items-start gap-4">
+                  <div
+                    className="h-10 w-10 rounded-full grid place-items-center flex-shrink-0"
+                    style={{
+                      backgroundColor: index === activeStep ? emerald : "rgba(15,91,79,0.1)",
+                      color: index === activeStep ? "white" : emerald,
+                    }}
+                  >
+                    {step.icon}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3
+                      className="font-semibold text-base mb-1"
+                      style={{ color: index === activeStep ? emerald : "#374151" }}
+                    >
+                      {step.title}
+                    </h3>
+                    <p className="text-sm text-gray-600 leading-relaxed">{step.description}</p>
+                  </div>
+                </div>
               </button>
             ))}
           </div>
         </div>
 
-        {/* Left: vertical stepper */}
-        <div className="lg:col-span-4 hidden lg:block">
-          <nav aria-label="Steps" className="relative">
-            <ol className="space-y-2">
-              {steps.map((s, i) => (
-                <li key={s.key}>
-                  <button
-                    onClick={() => setActive(i)}
-                    className={`group w-full text-left rounded-lg border px-3 py-3 transition ${
-                      i === active ? "shadow-sm" : "hover:bg-gray-50"
-                    }`}
-                    style={{
-                      borderColor: i === active ? gold : "rgba(15,91,79,0.15)",
-                      backgroundColor: i === active ? "rgba(212,175,55,0.08)" : "white",
-                    }}
-                    aria-current={i === active ? "step" : undefined}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div
-                        className="h-8 w-8 rounded-full grid place-items-center shrink-0"
-                        style={{ backgroundColor: i === active ? "rgba(212,175,55,0.15)" : "rgba(15,91,79,0.06)" }}
-                      >
-                        <Icon name={s.icon} />
-                      </div>
-                      <div>
-                        <p className="text-sm font-semibold" style={{ color: emerald }}>
-                          {i + 1}. {s.title}
-                        </p>
-                        <p className="text-xs text-gray-600">{s.subtitle}</p>
-                      </div>
-                    </div>
-                  </button>
-                </li>
-              ))}
-            </ol>
-          </nav>
-        </div>
-
-        {/* Right: active step detail */}
-        <div className="lg:col-span-8">
-          <Card className="overflow-hidden">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-lg" style={{ color: emerald }}>
-                {steps[active].title}
-              </CardTitle>
-              <p className="text-sm text-gray-600">{steps[active].subtitle}</p>
-            </CardHeader>
-            <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="relative rounded-lg border overflow-hidden">
+        {/* Right: Content area */}
+        <div className="md:col-span-7">
+          <div className="sticky top-8">
+            <Card className="border shadow-sm overflow-hidden">
+              <div className="aspect-video bg-gray-50 relative overflow-hidden">
                 <img
-                  src={steps[active].img || "/placeholder.svg"}
-                  alt={`${steps[active].title} illustration`}
+                  src={steps[activeStep].image || "/placeholder.svg"}
+                  alt={steps[activeStep].title}
                   className="w-full h-full object-cover"
-                  loading="lazy"
                 />
                 <div
-                  className="pointer-events-none absolute inset-0"
-                  style={{
-                    background: "linear-gradient(180deg, rgba(255,255,255,0) 60%, rgba(0,0,0,0.06) 100%)",
-                  }}
-                  aria-hidden="true"
-                />
-              </div>
-              <div className="flex flex-col justify-between">
-                <ul className="space-y-2">
-                  {steps[active].bullets.map((b) => (
-                    <li key={b} className="flex items-start gap-2">
-                      <CheckCircle2 className="h-4.5 w-4.5" style={{ color: "#19c37d" }} />
-                      <span className="text-sm text-gray-800">{b}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="mt-4 flex items-center justify-between gap-2">
-                  <div className="flex items-center gap-2">
-                    <Button
-                      variant="outline"
-                      className="rounded-full h-9 w-9 p-0 bg-transparent"
-                      style={{ borderColor: emerald, color: emerald, backgroundColor: "white" }}
-                      onClick={() => go("prev")}
-                      aria-label="Previous step"
-                    >
-                      <ChevronLeft className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="rounded-full h-9 w-9 p-0 bg-transparent"
-                      style={{ borderColor: emerald, color: emerald, backgroundColor: "white" }}
-                      onClick={() => go("next")}
-                      aria-label="Next step"
-                    >
-                      <ChevronRight className="h-4 w-4" />
-                    </Button>
-                  </div>
-
-                  <Button
-                    className="rounded-full font-semibold"
-                    style={{ backgroundColor: gold, color: emerald }}
-                    onClick={onGetStarted}
-                  >
-                    Get Started
-                  </Button>
+                  className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-medium text-white"
+                  style={{ backgroundColor: emerald }}
+                >
+                  Step {steps[activeStep].id}
                 </div>
               </div>
-            </CardContent>
-          </Card>
+              <CardContent className="p-6">
+                <h3 className="text-xl font-bold mb-3" style={{ color: emerald }}>
+                  {steps[activeStep].title}
+                </h3>
+                <p className="text-gray-700 mb-4 leading-relaxed">{steps[activeStep].description}</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {steps[activeStep].details.map((detail, i) => (
+                    <div key={i} className="flex items-start gap-2">
+                      <CheckCircle2 className="h-4 w-4 mt-0.5" style={{ color: "#19c37d" }} />
+                      <span className="text-sm text-gray-600">{detail}</span>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
+      </div>
+
+      {/* CTA */}
+      <div className="mt-8 text-center">
+        <Button
+          onClick={onGetStarted}
+          className="rounded-full px-8 py-6 text-base font-semibold hover:shadow-md transition-all"
+          style={{ backgroundColor: gold, color: emerald }}
+        >
+          Get Started
+        </Button>
+        <p className="mt-3 text-sm text-gray-600">Ready in 48-72 hours • 20-day revision support included</p>
       </div>
     </div>
   )

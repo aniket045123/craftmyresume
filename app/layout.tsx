@@ -1,85 +1,82 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { GeistSans } from "geist/font/sans"
-import { GeistMono } from "geist/font/mono"
+import { Inter } from "next/font/google"
 import "./globals.css"
+import { Toaster } from "@/components/ui/toaster"
+
+const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://craftmyresume.in"),
-  title: {
-    default: "CraftMyResume — ATS‑Optimized Resume Writing Service",
-    template: "%s | CraftMyResume",
-  },
+  title: "CraftMyResume - Professional ATS-Optimized Resume Writing Services",
   description:
-    "Stand out with a high‑impact, ATS‑optimized resume. 75%+ ATS score guarantee, cover letter, and LinkedIn optimization included.",
-  applicationName: "CraftMyResume",
-  keywords: [
-    "resume writing",
-    "ATS resume",
-    "LinkedIn optimization",
-    "cover letter",
-    "job search",
-    "career",
-    "SOP writing",
-  ],
+    "Get a professional, ATS-optimized resume that lands interviews. 75%+ ATS score guaranteed. Expert writers, 48-hour delivery, cover letter included. Starting at ₹499.",
+  keywords:
+    "resume writing, ATS optimized resume, professional resume, CV writing, cover letter, LinkedIn optimization, job application, career services, resume maker, India",
   authors: [{ name: "CraftMyResume" }],
   creator: "CraftMyResume",
   publisher: "CraftMyResume",
-  robots: {
-    index: true,
-    follow: true,
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
   },
+  metadataBase: new URL("https://craftmyresume.com"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    type: "website",
-    title: "CraftMyResume — ATS‑Optimized Resume Writing Service",
-    siteName: "CraftMyResume",
+    title: "CraftMyResume - Professional ATS-Optimized Resume Writing Services",
     description:
-      "Stand out with a high‑impact, ATS‑optimized resume. 75%+ ATS score guarantee, cover letter, and LinkedIn optimization included.",
+      "Get a professional, ATS-optimized resume that lands interviews. 75%+ ATS score guaranteed. Expert writers, 48-hour delivery, cover letter included. Starting at ₹499.",
+    url: "https://craftmyresume.com",
+    siteName: "CraftMyResume",
     images: [
       {
-        url: "/logo-header.png",
-        width: 512,
-        height: 512,
-        alt: "CraftMyResume logo",
+        url: "/opengraph-image.png",
+        width: 1200,
+        height: 630,
+        alt: "CraftMyResume - Professional Resume Writing Services",
       },
     ],
+    locale: "en_US",
+    type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "CraftMyResume — ATS‑Optimized Resume Writing Service",
+    title: "CraftMyResume - Professional ATS-Optimized Resume Writing Services",
     description:
-      "Stand out with a high‑impact, ATS‑optimized resume. 75%+ ATS score guarantee, cover letter, and LinkedIn optimization included.",
-    images: ["/logo-header.png"],
+      "Get a professional, ATS-optimized resume that lands interviews. 75%+ ATS score guaranteed. Expert writers, 48-hour delivery, cover letter included. Starting at ₹499.",
+    images: ["/twitter-image.png"],
+    creator: "@craftmyresume",
   },
-  icons: {
-    icon: [{ url: "/icon.png", type: "image/png", sizes: "512x512" }],
-    apple: [{ url: "/apple-icon.png", sizes: "180x180" }],
-    shortcut: ["/icon.png"],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
-  themeColor: "#0f5b4f",
+  verification: {
+    google: "your-google-verification-code",
+  },
     generator: 'v0.app'
 }
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode
-}>) {
+}) {
   return (
     <html lang="en">
-      <head>
-        <style>{`
-html {
-  font-family: ${GeistSans.style.fontFamily};
-  --font-sans: ${GeistSans.variable};
-  --font-mono: ${GeistMono.variable};
-}
-        `}</style>
-      </head>
-      <body>{children}</body>
+      <body className={inter.className}>
+        {children}
+        <Toaster />
+      </body>
     </html>
   )
 }

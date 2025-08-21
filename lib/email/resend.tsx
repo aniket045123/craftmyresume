@@ -1,5 +1,7 @@
 import { Resend } from "resend"
 
+const resend = new Resend(process.env.RESEND_API_KEY)
+
 export type LeadPayload = {
   id?: string | null
   created_at?: string | null
@@ -14,11 +16,7 @@ export type LeadPayload = {
   ip: string | null
 }
 
-export function getResendClient() {
-  const key = process.env.RESEND_API_KEY
-  if (!key) return null
-  return new Resend(key)
-}
+export { resend }
 
 function toText(lead: LeadPayload) {
   return [
@@ -69,7 +67,6 @@ function toHtml(lead: LeadPayload) {
 }
 
 export async function sendLeadNotification(lead: LeadPayload) {
-  const resend = getResendClient()
   const to = process.env.LEADS_NOTIFY_TO
   const from = process.env.LEADS_NOTIFY_FROM || "CraftMyResume <onboarding@resend.dev>"
 

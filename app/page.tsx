@@ -4,7 +4,7 @@ import { CardDescription } from "@/components/ui/card"
 import SeoHomeJsonLd from "@/components/seo/home-jsonld"
 
 import type React from "react"
-import { useCallback, useEffect, useMemo, useState, useRef } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import Link from "next/link"
 import { Montserrat } from "next/font/google"
 import { Button } from "@/components/ui/button"
@@ -18,7 +18,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Separator } from "@/components/ui/separator"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
@@ -41,7 +40,6 @@ import {
   ShieldCheck,
   XCircle,
   ZoomIn,
-  MessageCircle,
 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import HowItWorksInteractive from "@/components/how-it-works"
@@ -139,23 +137,6 @@ radial-gradient(circle at 75px 75px, ${dot} 2px, transparent 2px)
                 {l.label}
               </button>
             ))}
-            <Button
-              asChild
-              className="rounded-full font-semibold hover:shadow-md transition"
-              style={{ backgroundColor: "#25D366", color: "#0b2f21" }}
-            >
-              <a
-                href="https://wa.me/917039409085"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Chat with us on WhatsApp"
-              >
-                <span className="inline-flex items-center gap-2">
-                  <MessageCircle className="h-4 w-4" />
-                  WhatsApp
-                </span>
-              </a>
-            </Button>
           </nav>
           {/* Mobile Menu */}
           <div className="md:hidden">
@@ -197,23 +178,6 @@ radial-gradient(circle at 75px 75px, ${dot} 2px, transparent 2px)
                     </button>
                   ))}
                   <Separator />
-                  <Button
-                    asChild
-                    className="rounded-full font-semibold"
-                    style={{ backgroundColor: "#25D366", color: "#0b2f21" }}
-                  >
-                    <a
-                      href="https://wa.me/917039409085"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="Chat with us on WhatsApp"
-                    >
-                      <span className="inline-flex items-center gap-2">
-                        <MessageCircle className="h-4 w-4" />
-                        WhatsApp
-                      </span>
-                    </a>
-                  </Button>
                 </div>
               </SheetContent>
             </Sheet>
@@ -235,7 +199,7 @@ radial-gradient(circle at 75px 75px, ${dot} 2px, transparent 2px)
                 </div>
                 <h1
                   id="hero-heading"
-                  className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-white"
+                  className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-bold leading-tight text-white"
                 >
                   {"Stand Out with a High-Impact ATS – Optimized Resume"}
                 </h1>
@@ -262,28 +226,11 @@ radial-gradient(circle at 75px 75px, ${dot} 2px, transparent 2px)
                     </li>
                   ))}
                 </ul>
-                <div className="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                  <Button
-                    className="rounded-full px-6 py-6 text-base font-semibold shadow-md hover:shadow-lg transition-all"
-                    style={{ backgroundColor: COLORS.GOLD, color: COLORS.EMERALD }}
-                    onClick={() => handleOpenContact()}
-                    aria-label="Open contact form"
-                  >
-                    Avail Our Service
-                  </Button>
-                  <div className="flex items-center gap-2">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="h-5 w-5" color={COLORS.GOLD} fill={COLORS.GOLD} aria-hidden="true" />
-                    ))}
-                    <span className="text-white text-sm sm:text-base">{"Trusted by 12,000+ Professionals"}</span>
-                  </div>
-                </div>
-                <TrustLogos />
               </div>
 
               <div className="lg:col-span-6">
                 <HeroLeadForm
-                  onSuccess={() => toast({ title: "Submitted!", description: "We’ll be in touch shortly." })}
+                  onSuccess={() => toast({ title: "Submitted!", description: "We'll be in touch shortly." })}
                 />
               </div>
             </div>
@@ -372,7 +319,7 @@ radial-gradient(circle at 75px 75px, ${dot} 2px, transparent 2px)
               />
               <PricingCard
                 name="LinkedIn Optimization"
-                price="₹299"
+                price="₹599"
                 label="Boost your visibility and recruiter outreach"
                 features={[
                   "Headline, About & Experience optimized",
@@ -413,7 +360,7 @@ radial-gradient(circle at 75px 75px, ${dot} 2px, transparent 2px)
             <HowItWorksInteractive
               emerald={COLORS.EMERALD}
               gold={COLORS.GOLD}
-              onGetStarted={() => handleOpenContact()}
+              onGetStarted={() => handleSmoothScroll("packages")}
             />
           </div>
         </section>
@@ -443,7 +390,7 @@ radial-gradient(circle at 75px 75px, ${dot} 2px, transparent 2px)
               <div className="lg:col-span-7">
                 <div className="space-y-6">
                   <p className="text-gray-700 text-base sm:text-lg">
-                    We don’t just make resumes look good—we align your achievements to the roles you want, structure
+                    We don't just make resumes look good—we align your achievements to the roles you want, structure
                     content for ATS, and position you as the obvious choice for recruiters.
                   </p>
 
@@ -528,7 +475,7 @@ radial-gradient(circle at 75px 75px, ${dot} 2px, transparent 2px)
                         </div>
                       </AccordionTrigger>
                       <AccordionContent className="px-4 pb-4 text-sm text-gray-700">
-                        We run your draft through leading ATS scanners and fix parse issues before delivery. You’ll also
+                        We run your draft through leading ATS scanners and fix parse issues before delivery. You'll also
                         receive a short reviewer note explaining why the score improved and what to tweak per role.
                       </AccordionContent>
                     </AccordionItem>
@@ -544,7 +491,7 @@ radial-gradient(circle at 75px 75px, ${dot} 2px, transparent 2px)
                       </AccordionTrigger>
                       <AccordionContent className="px-4 pb-4 text-sm text-gray-700">
                         Stay informed at every step: a kickoff call, transparent timelines, and fast replies. If
-                        something feels off, we’ll refine quickly to hit the mark.
+                        something feels off, we'll refine quickly to hit the mark.
                       </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="w-item-4" className="border rounded-md">
@@ -568,7 +515,7 @@ radial-gradient(circle at 75px 75px, ${dot} 2px, transparent 2px)
                     <Button
                       className="rounded-full font-semibold hover:shadow-md"
                       style={{ backgroundColor: COLORS.GOLD, color: COLORS.EMERALD }}
-                      onClick={() => handleOpenContact()}
+                      onClick={() => handleSmoothScroll("packages")}
                     >
                       See Packages
                     </Button>
@@ -670,7 +617,7 @@ radial-gradient(circle at 75px 75px, ${dot} 2px, transparent 2px)
                       Expect:
                       <ul className="mt-2 list-disc pl-5 space-y-1">
                         <li>Correct use of headings, dates, and section order for accurate parsing</li>
-                        <li>Keyword density aligned to the job families you’re targeting</li>
+                        <li>Keyword density aligned to the job families you're targeting</li>
                         <li>An ATS summary report with tips for minor per‑JD tweaks</li>
                       </ul>
                       <p className="mt-2 text-xs text-gray-500">
@@ -775,9 +722,9 @@ radial-gradient(circle at 75px 75px, ${dot} 2px, transparent 2px)
                 <Button
                   className="mt-6 rounded-full px-6 py-6 font-semibold hover:shadow-md"
                   style={{ backgroundColor: COLORS.GOLD, color: COLORS.EMERALD }}
-                  onClick={() => handleOpenContact()}
+                  onClick={() => window.open("https://payments.cashfree.com/forms/craftmyresumepayment", "_blank")}
                 >
-                  Request a Callback
+                  Buy Now
                 </Button>
               </div>
             </div>
@@ -842,7 +789,7 @@ radial-gradient(circle at 75px 75px, ${dot} 2px, transparent 2px)
                     },
                     {
                       q: "Is it a subscription or a one-time service?",
-                      a: "It’s a one‑time fee for the package you choose. No subscriptions. Your package includes a revision window (see support FAQs) and optional add‑ons like rush delivery or job‑specific tailoring.",
+                      a: "It's a one‑time fee for the package you choose. No subscriptions. Your package includes a revision window (see support FAQs) and optional add‑ons like rush delivery or job‑specific tailoring.",
                     },
                     {
                       q: "What is the turnaround time?",
@@ -877,7 +824,7 @@ radial-gradient(circle at 75px 75px, ${dot} 2px, transparent 2px)
                   {[
                     {
                       q: "Do I get to choose the resume template?",
-                      a: "We’ll recommend 2–3 clean, ATS‑safe layouts that match your seniority and industry. You can pick your preference and we’ll adapt spacing, section order, and emphasis accordingly. You’ll see a preview before finalization.",
+                      a: "We'll recommend 2–3 clean, ATS‑safe layouts that match your seniority and industry. You can pick your preference and we'll adapt spacing, section order, and emphasis accordingly. You'll see a preview before finalization.",
                     },
                     {
                       q: "What is ATS?",
@@ -885,11 +832,11 @@ radial-gradient(circle at 75px 75px, ${dot} 2px, transparent 2px)
                     },
                     {
                       q: "How much ATS score do you guarantee?",
-                      a: "We guarantee a minimum 75%+ ATS score on common scanners for your target role’s keywords. Scores vary by tool and job description, so we also validate manually for recruiter readability. Remember: a high score helps you get seen, but interviews still depend on role fit and market conditions.",
+                      a: "We guarantee a minimum 75%+ ATS score on common scanners for your target role's keywords. Scores vary by tool and job description, so we also validate manually for recruiter readability. Remember: a high score helps you get seen, but interviews still depend on role fit and market conditions.",
                     },
                     {
                       q: "How can I tailor the resume for each application?",
-                      a: "You’ll receive an editable DOCX and a quick ‘tailoring checklist’. We highlight which bullets/keywords to tweak per job and provide a mini keyword bank. If you’d like us to tailor for a specific posting, add our quick‑tailor add‑on.",
+                      a: "You'll receive an editable DOCX and a quick 'tailoring checklist'. We highlight which bullets/keywords to tweak per job and provide a mini keyword bank. If you'd like us to tailor for a specific posting, add our quick‑tailor add‑on.",
                     },
                   ].map(({ q, a }, i) => (
                     <AccordionItem key={q} value={`c-${i}`} className="border-b">
@@ -908,7 +855,7 @@ radial-gradient(circle at 75px 75px, ${dot} 2px, transparent 2px)
                   {[
                     {
                       q: "What if I am not satisfied with your service?",
-                      a: "Your success matters. If something feels off, we’ll hop on a quick call and refine the document until it reflects your story and goals within the agreed scope. Our aim is clear alignment and interview‑ready delivery.",
+                      a: "Your success matters. If something feels off, we'll hop on a quick call and refine the document until it reflects your story and goals within the agreed scope. Our aim is clear alignment and interview‑ready delivery.",
                     },
                     {
                       q: "How many edits will I get?",
@@ -920,7 +867,7 @@ radial-gradient(circle at 75px 75px, ${dot} 2px, transparent 2px)
                     },
                     {
                       q: "In what file formats will I receive my resume?",
-                      a: "You’ll receive a polished PDF (for applications) and an editable DOCX (for tailoring). We also share a plain‑text version if needed by certain ATS portals, plus font guidance so formatting stays consistent.",
+                      a: "You'll receive a polished PDF (for applications) and an editable DOCX (for tailoring). We also share a plain‑text version if needed by certain ATS portals, plus font guidance so formatting stays consistent.",
                     },
                     {
                       q: "What is the guarantee of landing a job?",
@@ -1004,23 +951,14 @@ radial-gradient(circle at 75px 75px, ${dot} 2px, transparent 2px)
                     ))}
                   </ul>
 
-                  <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="mt-6">
                     <Button
-                      className="rounded-full px-5 py-5 font-semibold hover:shadow-md"
+                      className="w-full rounded-full px-5 py-5 font-semibold hover:shadow-md"
                       style={{ backgroundColor: COLORS.GOLD, color: COLORS.EMERALD }}
-                      onClick={() => handleOpenContact()}
-                      aria-label="Open contact form"
+                      onClick={() => window.open("https://payments.cashfree.com/forms/craftmyresumepayment", "_blank")}
+                      aria-label="Open payment form"
                     >
                       Avail Our Service
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="rounded-full px-5 py-5 font-semibold border bg-transparent"
-                      style={{ borderColor: COLORS.EMERALD, color: COLORS.EMERALD, backgroundColor: "transparent" }}
-                      onClick={() => handleOpenContact()}
-                      aria-label="Contact us"
-                    >
-                      Contact us
                     </Button>
                   </div>
 
@@ -1033,7 +971,7 @@ radial-gradient(circle at 75px 75px, ${dot} 2px, transparent 2px)
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {[
                     { h: "ATS-first structure", d: "Clean headings, parsing-safe formatting, and keyword alignment." },
-                    { h: "Story that converts", d: "Quantified achievements matched to the roles you’re targeting." },
+                    { h: "Story that converts", d: "Quantified achievements matched to the roles you're targeting." },
                     { h: "Tailor fast", d: "Editable DOCX, plus a mini keyword bank and tailoring checklist." },
                     { h: "Human-led", d: "Expert writers for your industry—no generic templates." },
                   ].map((b) => (
@@ -1159,45 +1097,6 @@ radial-gradient(circle at 75px 75px, ${dot} 2px, transparent 2px)
 
 /* ---------- Shared Components ---------- */
 
-function TrustLogos() {
-  return (
-    <div className="mt-10">
-      <p className="text-white/80 text-sm">Featured by professionals from</p>
-      <div className="mt-3 flex flex-wrap items-center justify-start gap-3 sm:gap-4">
-        {[
-          {
-            src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/social%20%281%29-nC8ng98HaOcqeNYGqkMyWl2rPCf6BG.png",
-            alt: "Amazon",
-          },
-          {
-            src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/adidas-KRmYGWXUkbmeiSeT3LbtGTK2PzUvYd.png",
-            alt: "Adidas",
-          },
-          {
-            src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/huawei-n5WQ7GZXcJZwppP45xgr61yAdmU8e4.png",
-            alt: "Huawei",
-          },
-          {
-            src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/microsoft%20%281%29-xU82kDrAcoGLDiPRHxHEGKiVRVAH2V.png",
-            alt: "Microsoft",
-          },
-          {
-            src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ibm%20%281%29-uz4hY1Awk8aQuCR8BJ6wmtgASTdUoS.png",
-            alt: "IBM",
-          },
-        ].map((logo, i) => (
-          <img
-            key={i}
-            src={logo.src || "/placeholder.svg"}
-            alt={`${logo.alt} logo`}
-            className="h-8 sm:h-9 md:h-10 object-contain opacity-80 hover:opacity-100 transition-opacity"
-          />
-        ))}
-      </div>
-    </div>
-  )
-}
-
 function FeatureCard({
   icon,
   title,
@@ -1279,10 +1178,26 @@ function PricingCard({
         <Button
           className="w-full rounded-full font-semibold hover:shadow-md"
           style={{ backgroundColor: COLORS.GOLD, color: COLORS.EMERALD }}
-          onClick={onGetStarted}
-          aria-label={`Get Started with ${name}`}
+          onClick={() => {
+            let paymentUrl = ""
+            switch (name) {
+              case "Resume Package":
+                paymentUrl = "https://payments.cashfree.com/forms/craftmyresumepayment"
+                break
+              case "LinkedIn Optimization":
+                paymentUrl = "https://payments.cashfree.com/forms/craftmyresumelinkedin"
+                break
+              case "SOP Writing Services":
+                paymentUrl = "https://payments.cashfree.com/forms/craftmyresumesop"
+                break
+              default:
+                paymentUrl = "https://payments.cashfree.com/forms/craftmyresumepayment"
+            }
+            window.open(paymentUrl, "_blank")
+          }}
+          aria-label={`Buy Now ${name}`}
         >
-          Get Started
+          Buy Now
         </Button>
       </CardFooter>
     </Card>
@@ -1324,32 +1239,6 @@ function TestimonialCard({
   )
 }
 
-function StepCard({
-  icon,
-  title,
-  text,
-}: {
-  icon: React.ReactNode
-  title: string
-  text: string
-}) {
-  return (
-    <Card className="h-full hover:shadow-md transition">
-      <CardHeader>
-        <div className="flex items-center gap-3">
-          {icon}
-          <CardTitle className="text-lg sm:text-xl" style={{ color: COLORS.EMERALD }}>
-            {title}
-          </CardTitle>
-        </div>
-      </CardHeader>
-      <CardContent>
-        <p className="text-sm sm:text-base text-gray-700">{text}</p>
-      </CardContent>
-    </Card>
-  )
-}
-
 function ContactDialog({
   open,
   onOpenChange,
@@ -1366,7 +1255,6 @@ function ContactDialog({
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")
-  const [message, setMessage] = useState("")
   const [loading, setLoading] = useState(false)
   const { toast } = useToast()
 
@@ -1378,7 +1266,7 @@ function ContactDialog({
         const res = await fetch("/api/contact", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, email, phone, message, plan: selectedPlan }),
+          body: JSON.stringify({ name, email, phone, plan: selectedPlan }),
         })
         if (!res.ok) {
           const body = await res.json()
@@ -1389,7 +1277,6 @@ function ContactDialog({
         setName("")
         setEmail("")
         setPhone("")
-        setMessage("")
 
         // Redirect to payment form after successful submission
         setTimeout(() => {
@@ -1405,17 +1292,15 @@ function ContactDialog({
         setLoading(false)
       }
     },
-    [email, message, name, onOpenChange, phone, selectedPlan, toast],
+    [email, name, onOpenChange, phone, selectedPlan, toast],
   )
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle style={{ color: emerald }}>Contact Us</DialogTitle>
-          <DialogDescription>
-            We’d love to hear from you! Please fill out the form below and we’ll get back to you as soon as possible.
-          </DialogDescription>
+          <DialogTitle style={{ color: emerald }}>The CV That Gets The Job Done</DialogTitle>
+          <DialogDescription>Buy Now and Get Your Resume Delivered In 48 Hours</DialogDescription>
         </DialogHeader>
         <form className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
@@ -1454,17 +1339,6 @@ function ContactDialog({
               className="col-span-3"
             />
           </div>
-          <div className="grid grid-cols-4 items-start gap-4">
-            <label htmlFor="message" className="text-right text-sm font-medium mt-2">
-              Message
-            </label>
-            <Textarea
-              id="message"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              className="col-span-3"
-            />
-          </div>
         </form>
         <DialogFooter>
           <Button
@@ -1474,7 +1348,7 @@ function ContactDialog({
             style={{ backgroundColor: gold, color: emerald }}
             onClick={handleSubmit}
           >
-            {loading ? "Submitting..." : "Submit"}
+            {loading ? "Creating..." : "Create My Resume"}
           </Button>
         </DialogFooter>
       </DialogContent>
@@ -1486,7 +1360,6 @@ function HeroLeadForm({ onSuccess }: { onSuccess: () => void }) {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")
-  const [message, setMessage] = useState("")
   const [loading, setLoading] = useState(false)
   const { toast } = useToast()
 
@@ -1498,7 +1371,7 @@ function HeroLeadForm({ onSuccess }: { onSuccess: () => void }) {
         const res = await fetch("/api/contact", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, email, phone, message, plan: "General Contact" }),
+          body: JSON.stringify({ name, email, phone, plan: "General Contact" }),
         })
         if (!res.ok) {
           const body = await res.json()
@@ -1509,7 +1382,6 @@ function HeroLeadForm({ onSuccess }: { onSuccess: () => void }) {
         setName("")
         setEmail("")
         setPhone("")
-        setMessage("")
 
         // Redirect to payment form after successful submission
         setTimeout(() => {
@@ -1525,73 +1397,123 @@ function HeroLeadForm({ onSuccess }: { onSuccess: () => void }) {
         setLoading(false)
       }
     },
-    [email, message, name, onSuccess, phone, toast],
+    [email, name, onSuccess, phone, toast],
   )
 
   return (
-    <Card className="shadow-lg">
-      <CardHeader>
-        <CardTitle className="text-xl" style={{ color: COLORS.EMERALD }}>
-          Contact Us
-        </CardTitle>
-        <CardDescription>Tell us about your resume or LinkedIn needs. We’ll get back within 12 hours.</CardDescription>
-      </CardHeader>
-      <CardContent className="grid gap-4">
-        <div className="grid grid-cols-4 items-center gap-4">
-          <label htmlFor="name" className="text-right text-sm font-medium">
-            Name
-          </label>
-          <Input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} className="col-span-3" />
+    <div className="w-full">
+      {/* Promotional Banner - Outside the card */}
+      <div className="mb-6 text-center">
+        <div className="flex items-center justify-center gap-2">
+          <span className="text-lg font-bold text-white">Priced @</span>
+          <span className="text-lg font-bold text-gray-300 line-through">₹2999</span>
+          <span className="text-2xl font-bold" style={{ color: "#22c55e" }}>
+            ₹499
+          </span>
         </div>
-        <div className="grid grid-cols-4 items-center gap-4">
-          <label htmlFor="email" className="text-right text-sm font-medium">
-            Email
-          </label>
-          <Input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="col-span-3"
-          />
+      </div>
+
+      {/* Contact Form Card */}
+      <Card className="shadow-lg">
+        <CardHeader>
+          <CardTitle className="text-lg" style={{ color: COLORS.EMERALD }}>
+            The CV That Gets The Job Done
+          </CardTitle>
+          <CardDescription>Buy Now and Get Your Resume Delivered In 48 Hours</CardDescription>
+        </CardHeader>
+        <CardContent className="grid gap-4">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <label htmlFor="name" className="text-right text-sm font-medium">
+              Name
+            </label>
+            <Input
+              type="text"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="col-span-3"
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <label htmlFor="email" className="text-right text-sm font-medium">
+              Email
+            </label>
+            <Input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="col-span-3"
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <label htmlFor="phone" className="text-right text-sm font-medium">
+              Phone
+            </label>
+            <Input
+              type="tel"
+              id="phone"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              className="col-span-3"
+            />
+          </div>
+        </CardContent>
+        <CardFooter>
+          <Button
+            type="submit"
+            disabled={loading}
+            className="w-full rounded-full font-semibold hover:shadow-md"
+            style={{ backgroundColor: COLORS.GOLD, color: COLORS.EMERALD }}
+            onClick={handleSubmit}
+          >
+            {loading ? "Creating..." : "Create My Resume"}
+          </Button>
+        </CardFooter>
+
+        {/* Secure Checkout Section */}
+        <div className="px-6 pb-4">
+          <div className="flex items-center justify-center gap-3 pt-3 border-t border-gray-100">
+            <div className="flex items-center gap-1">
+              <span className="text-yellow-500 text-sm">🔒</span>
+              <span className="text-xs text-gray-600 font-medium">Secure Checkout</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <img
+                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/visa%20%281%29-HH19GESbpVEJyljO0U17HjziUvevPM.png"
+                alt="Visa"
+                className="h-4 w-auto"
+              />
+              <img
+                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/card-rO6zZdeeEmdisGb41GPPQtMQeAGCfn.png"
+                alt="MasterCard"
+                className="h-4 w-auto"
+              />
+              <img
+                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/upi-icon-8Skw0jp5XaguCJNuhznKufRfLNyn7Z.png"
+                alt="UPI"
+                className="h-4 w-auto"
+              />
+              <img
+                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/phonepe-icon-Sa1P8jevciPZBO9OHoIUvUeRgGJwTs.png"
+                alt="PhonePe"
+                className="h-4 w-auto"
+              />
+              <img
+                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/google-pay-rHmySgal5SRrphMRx0z3zPhudZ0z0V.png"
+                alt="Google Pay"
+                className="h-4 w-auto"
+              />
+              <img
+                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/paytm-icon-jRijPi75zcapxia9xFZX3SVi8BIQ2q.png"
+                alt="Paytm"
+                className="h-4 w-auto"
+              />
+            </div>
+          </div>
         </div>
-        <div className="grid grid-cols-4 items-center gap-4">
-          <label htmlFor="phone" className="text-right text-sm font-medium">
-            Phone
-          </label>
-          <Input
-            type="tel"
-            id="phone"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            className="col-span-3"
-          />
-        </div>
-        <div className="grid grid-cols-4 items-start gap-4">
-          <label htmlFor="hero-message" className="text-right text-sm font-medium mt-2">
-            Message
-          </label>
-          <Textarea
-            id="hero-message"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            placeholder="Briefly describe what you need help with..."
-            className="col-span-3"
-          />
-        </div>
-      </CardContent>
-      <CardFooter>
-        <Button
-          type="submit"
-          disabled={loading}
-          className="w-full rounded-full font-semibold hover:shadow-md"
-          style={{ backgroundColor: COLORS.GOLD, color: COLORS.EMERALD }}
-          onClick={handleSubmit}
-        >
-          {loading ? "Sending..." : "Send Message"}
-        </Button>
-      </CardFooter>
-    </Card>
+      </Card>
+    </div>
   )
 }
 
@@ -1685,62 +1607,6 @@ function ATSReviewsSlider() {
             style={{ backgroundColor: i === index ? COLORS.EMERALD : "rgba(15,91,79,0.25)" }}
           />
         ))}
-      </div>
-    </div>
-  )
-}
-
-function BeforeAfterStatic({
-  beforeSrc,
-  afterSrc,
-}: {
-  beforeSrc: string
-  afterSrc: string
-}) {
-  return (
-    <div className="mx-auto max-w-4xl">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Before */}
-        <div
-          className="relative rounded-xl border shadow-sm overflow-hidden bg-white"
-          style={{ borderColor: "rgba(15,91,79,0.15)" }}
-        >
-          <span
-            className="absolute left-3 top-3 z-10 text-xs font-semibold px-2.5 py-1 rounded-full"
-            style={{ backgroundColor: "rgba(239,68,68,0.1)", color: "#991B1B" }}
-          >
-            Before
-          </span>
-          <div className="relative w-full aspect-[3/4]">
-            <img
-              src={beforeSrc || "/placeholder.svg?height=720&width=512&query=before%20resume"}
-              alt="Before resume (older layout)"
-              loading="lazy"
-              className="absolute inset-0 h-full w-full object-contain bg-white"
-            />
-          </div>
-        </div>
-
-        {/* After */}
-        <div
-          className="relative rounded-xl border shadow-sm overflow-hidden bg-white"
-          style={{ borderColor: "rgba(15,91,79,0.15)" }}
-        >
-          <span
-            className="absolute left-3 top-3 z-10 text-xs font-semibold px-2.5 py-1 rounded-full"
-            style={{ backgroundColor: "rgba(16,185,129,0.12)", color: COLORS.EMERALD }}
-          >
-            After
-          </span>
-          <div className="relative w-full aspect-[3/4]">
-            <img
-              src={afterSrc || "/placeholder.svg?height=720&width=512&query=after%20resume"}
-              alt="After resume (modern ATS-friendly layout)"
-              loading="lazy"
-              className="absolute inset-0 h-full w-full object-contain bg-white"
-            />
-          </div>
-        </div>
       </div>
     </div>
   )
@@ -1913,7 +1779,7 @@ function BeforeAfterShowcase({
         </div>
       </div>
 
-      {/* Zoom Modal (masks also applied for After) */}
+      {/* Zoom Modal */}
       <Dialog open={zoomOpen} onOpenChange={setZoomOpen}>
         <DialogContent className="max-w-[92vw] sm:max-w-3xl">
           <DialogHeader>
@@ -1939,157 +1805,6 @@ function BeforeAfterShowcase({
           </div>
         </DialogContent>
       </Dialog>
-    </div>
-  )
-}
-
-function BeforeAfterSlider({
-  beforeSrc,
-  afterSrc,
-  emerald,
-  gold,
-}: {
-  beforeSrc: string
-  afterSrc: string
-  emerald: string
-  gold: string
-}) {
-  const [pos, setPos] = useState(50) // percentage (0-100), starts centered
-  const [dragging, setDragging] = useState(false)
-  const containerRef = useRef<HTMLDivElement | null>(null)
-
-  const clamp = (v: number) => Math.max(0, Math.min(100, v))
-
-  const setFromClientX = useCallback((clientX: number) => {
-    const el = containerRef.current
-    if (!el) return
-    const rect = el.getBoundingClientRect()
-    const pct = ((clientX - rect.left) / rect.width) * 100
-    setPos(clamp(pct))
-  }, [])
-
-  // Pointer handlers on container
-  const handlePointerDown = useCallback(
-    (e: React.PointerEvent<HTMLDivElement>) => {
-      setDragging(true)
-      e.currentTarget.setPointerCapture?.(e.pointerId)
-      setFromClientX(e.clientX)
-    },
-    [setFromClientX],
-  )
-
-  const handlePointerMove = useCallback(
-    (e: React.PointerEvent<HTMLDivElement>) => {
-      if (!dragging) return
-      setFromClientX(e.clientX)
-    },
-    [dragging, setFromClientX],
-  )
-
-  const handlePointerUp = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
-    setDragging(false)
-    e.currentTarget.releasePointerCapture?.(e.pointerId)
-  }, [])
-
-  // Window listeners so dragging continues if pointer leaves the element
-  useEffect(() => {
-    const onMove = (e: PointerEvent) => {
-      if (!dragging) return
-      setFromClientX(e.clientX)
-    }
-    const onUp = () => setDragging(false)
-    if (dragging) {
-      window.addEventListener("pointermove", onMove)
-      window.addEventListener("pointerup", onUp)
-      window.addEventListener("pointercancel", onUp)
-    }
-    return () => {
-      window.removeEventListener("pointermove", onMove)
-      window.removeEventListener("pointerup", onUp)
-      window.removeEventListener("pointercancel", onUp)
-    }
-  }, [dragging, setFromClientX])
-
-  // Keyboard support
-  const onKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === "ArrowLeft") setPos((p) => clamp(p - 3))
-    if (e.key === "ArrowRight") setPos((p) => clamp(p + 3))
-    if (e.key === "Home") setPos(0)
-    if (e.key === "End") setPos(100)
-  }, [])
-
-  return (
-    <div className="w-full">
-      <div
-        ref={containerRef}
-        className="relative mx-auto max-w-4xl rounded-xl border shadow-sm overflow-hidden bg-white select-none touch-none min-h-[360px] sm:min-h-[480px] md:min-h-[640px]"
-        style={{ borderColor: "rgba(15,91,79,0.15)" }}
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        role="slider"
-        aria-label="Before and After comparison slider"
-        aria-valuemin={0}
-        aria-valuemax={100}
-        aria-valuenow={Math.round(pos)}
-        tabIndex={0}
-        onKeyDown={onKeyDown}
-      >
-        {/* Labels */}
-        <span
-          className="absolute left-3 top-3 z-20 text-xs font-semibold px-2.5 py-1 rounded-full"
-          style={{ backgroundColor: "rgba(239,68,68,0.1)", color: "#991B1B" }}
-        >
-          Before
-        </span>
-        <span
-          className="absolute right-3 top-3 z-20 text-xs font-semibold px-2.5 py-1 rounded-full"
-          style={{ backgroundColor: "rgba(16,185,129,0.12)", color: emerald }}
-        >
-          After
-        </span>
-
-        {/* Static After image (absolute, full size) */}
-        <img
-          src={afterSrc || "/placeholder.svg?height=720&width=512&query=after%20resume"}
-          alt="After resume (modern ATS-friendly layout)"
-          loading="lazy"
-          className="absolute inset-0 h-full w-full object-contain bg-white"
-        />
-
-        {/* Static Before image (absolute, full size) with clip-path reveal from the left */}
-        <img
-          src={beforeSrc || "/placeholder.svg?height=720&width=512&query=before%20resume"}
-          alt="Before resume (older layout)"
-          loading="lazy"
-          className="absolute inset-0 h-full w-full object-contain bg-white will-change-[clip-path]"
-          style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}
-        />
-
-        {/* Divider + Handle (positioned by percent, images remain static) */}
-        <div
-          className="absolute top-0 bottom-0 z-10 flex items-center"
-          style={{ left: `${pos}%`, transform: "translateX(-50%)" }}
-          aria-hidden="true"
-        >
-          <div className="h-full w-px" style={{ backgroundColor: "rgba(0,0,0,0.28)" }} />
-          <button
-            type="button"
-            className="mx-1 rounded-full shadow border grid place-items-center cursor-ew-resize focus:outline-none focus:ring-2"
-            style={{ backgroundColor: gold, borderColor: "rgba(0,0,0,0.06)", color: emerald }}
-            onPointerDown={handlePointerDown}
-            aria-label="Drag to compare"
-          >
-            <div className="h-9 w-9 md:h-10 md:w-10 rounded-full grid place-items-center">
-              <div className="flex items-center gap-1">
-                <ChevronLeft className="h-4 w-4" />
-                <ChevronRight className="h-4 w-4" />
-              </div>
-            </div>
-          </button>
-        </div>
-      </div>
-      <p className="sr-only">Use your finger or mouse to drag the center handle and compare before versus after.</p>
     </div>
   )
 }

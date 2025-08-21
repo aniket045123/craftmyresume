@@ -1,108 +1,91 @@
 "use client"
 
-import { useEffect, useState, useCallback } from "react"
-import { X, MessageCircle } from "lucide-react"
+import { useState, useEffect } from "react"
+import { Button } from "@/components/ui/button"
+import { X } from "lucide-react"
 
-type Props = {
-  emerald?: string
-  gold?: string
-  whatsappUrl?: string
-  extraLabel?: string
+interface OfferOverlayProps {
+  emerald: string
+  gold: string
+  whatsappUrl: string
 }
 
-const DISMISS_KEY = "cmr_offer_dismissed"
-
-export default function OfferOverlay({
-  emerald = "#0f5b4f",
-  gold = "#d4af37",
-  whatsappUrl = "https://wa.me/917039409085",
-  extraLabel = "Resume + Cover Letter",
-}: Props) {
-  const [open, setOpen] = useState(true)
+export default function OfferOverlay({ emerald, gold }: OfferOverlayProps) {
+  const [isVisible, setIsVisible] = useState(false)
+  const [isClosing, setIsClosing] = useState(false)
 
   useEffect(() => {
-    try {
-      const dismissed = localStorage.getItem(DISMISS_KEY)
-      if (dismissed === "1") setOpen(false)
-    } catch {
-      // ignore
-    }
+    const timer = setTimeout(() => {
+      setIsVisible(true)
+    }, 3000) // Show after 3 seconds
+
+    return () => clearTimeout(timer)
   }, [])
 
-  const handleClose = useCallback(() => {
-    setOpen(false)
-    try {
-      localStorage.setItem(DISMISS_KEY, "1")
-    } catch {
-      // ignore
-    }
-  }, [])
+  const handleClose = () => {
+    setIsClosing(true)
+    setTimeout(() => {
+      setIsVisible(false)
+      setIsClosing(false)
+    }, 300)
+  }
 
-  if (!open) return null
+  const handleBuyNow = () => {
+    window.open("https://payments.cashfree.com/forms/craftmyresumepayment", "_blank")
+  }
+
+  if (!isVisible) return null
 
   return (
     <div
-      className="fixed inset-x-2 sm:inset-x-4 bottom-2 sm:bottom-4 z-50"
-      role="region"
-      aria-label="Limited time offer"
-      style={{ pointerEvents: "none" }}
+      className={`fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-80 z-50 transition-all duration-300 ${
+        isClosing ? "opacity-0 translate-y-4" : "opacity-100 translate-y-0"
+      }`}
     >
       <div
-        className="mx-auto max-w-3xl rounded-2xl border shadow-lg bg-white"
-        style={{ borderColor: "rgba(15,91,79,0.15)", pointerEvents: "auto" }}
+        className="rounded-xl border shadow-lg p-4 relative"
+        style={{
+          backgroundColor: "white",
+          borderColor: "rgba(212,175,55,0.35)",
+          boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
+        }}
       >
-        {/* Single-line, no-wrap row with truncation where needed */}
-        <div className="px-3 py-2.5 sm:px-4 sm:py-3">
-          <div className="flex items-center gap-2 sm:gap-3 flex-nowrap">
-            {/* Left: Offer pill */}
+        {/* Close Button */}
+        <button
+          onClick={handleClose}
+          className="absolute top-2 right-2 p-1 rounded-full hover:bg-gray-100 transition-colors"
+          aria-label="Close offer"
+        >
+          <X className="h-4 w-4 text-gray-500" />
+        </button>
+
+        {/* Content */}
+        <div className="pr-6">
+          <div className="flex items-center gap-2 mb-2">
             <span
-              className="inline-flex items-center text-[11px] sm:text-xs font-semibold px-2.5 py-1 rounded-full shrink-0"
+              className="text-xs font-semibold px-2 py-1 rounded-full"
               style={{ backgroundColor: "rgba(212,175,55,0.15)", color: emerald }}
             >
-              Limited Time Offer
+              Limited Time
             </span>
-
-            {/* Price */}
-            <span className="text-sm sm:text-base font-medium shrink-0" style={{ color: emerald }}>
-              {"₹499 Only"}
-            </span>
-
-            {/* Middle: extra label, truncated on small screens to stay one line */}
-            <div className="flex-1 min-w-0">
-              <p className="text-xs sm:text-sm text-gray-700 truncate" title={extraLabel} aria-label={extraLabel}>
-                {"• "} {extraLabel}
-              </p>
-            </div>
-
-            {/* WhatsApp CTA */}
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Chat with us on WhatsApp"
-              className="inline-flex items-center justify-center gap-1.5 rounded-full h-9 px-3 sm:px-4 text-sm font-semibold shadow hover:opacity-95 transition shrink-0"
-              style={{ backgroundColor: "#25D366", color: "#0b2f21" }}
-            >
-              <MessageCircle className="h-4 w-4" />
-              <span className="hidden xs:inline sm:inline">WhatsApp</span>
-              <span className="sm:hidden">Chat</span>
-            </a>
-
-            {/* Close */}
-            <button
-              aria-label="Close offer"
-              onClick={handleClose}
-              className="ml-1 rounded-full p-1.5 hover:bg-gray-100 transition shrink-0"
-              title="Dismiss"
-            >
-              <X className="h-4 w-4" style={{ color: emerald }} />
-            </button>
+            <span className="text-xs text-gray-600">⏰ Offer ends soon!</span>
           </div>
+
+          <h3 className="font-bold text-sm mb-1" style={{ color: emerald }}>
+            Professional Resume @ ₹499
+          </h3>
+
+          <p className="text-xs text-gray-600 mb-3">ATS-optimized • Cover letter included • 2-3 day delivery</p>
+
+          <Button
+            onClick={handleBuyNow}
+            className="w-full rounded-full text-sm font-semibold py-2 hover:shadow-md transition-all"
+            style={{ backgroundColor: gold, color: emerald }}
+          >
+            Buy Now
+          </Button>
         </div>
       </div>
-
-      {/* Safe area spacer for iOS */}
-      <div className="h-[env(safe-area-inset-bottom)]" />
     </div>
   )
 }
