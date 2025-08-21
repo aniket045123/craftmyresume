@@ -1,0 +1,88 @@
+// app/page.tsx
+import React from 'react';
+
+const COLORS = {
+  EMERALD: "#0f5b4f",
+  GOLD: "#d2cfa0",
+  BEIGE: "#f5efe0",
+};
+
+const Page = () => {
+  return (
+    <div>
+      {/* Why Choose feature chips */}
+      <div style={{ backgroundColor: "rgba(210,207,160,0.12)" }}>
+        {/* Chips content here */}
+      </div>
+
+      {/* Badges, pills, and accents */}
+      <div style={{ backgroundColor: "rgba(210,207,160,0.10)" }}>
+        {/* Badges content here */}
+      </div>
+
+      {/* CTA Offer card */}
+      <div style={{ borderColor: "rgba(210,207,160,0.35)" }}>
+        {/* Offer card content here */}
+      </div>
+
+      {/* TestimonialCard */}
+      <div style={{ borderColor: "rgba(210,207,160,0.30)" }}>
+        {/* Testimonial content here */}
+      </div>
+
+      {/* ATSReviewsSlider quote icon bubble */}
+      <div style={{ backgroundColor: "rgba(210,207,160,0.12)" }}>
+        {/* Quote icon bubble content here */}
+      </div>
+
+      {/* Any other instances of rgba(212,175,55,...) */}
+      <div style={{ backgroundColor: "rgba(210,207,160,0.18)" }}>
+        {/* Other content here */}
+      </div>
+    </div>
+  );
+};
+
+export default Page;
+
+// components/how-it-works.tsx
+import React from 'react';
+
+interface Props {
+  emerald?: string;
+  gold?: string;
+  onGetStarted: () => void;
+}
+
+const HowItWorksInteractive = ({ emerald = "#0f5b4f", gold = "#d2cfa0", onGetStarted }: Props) => {
+  const active = 0; // Example active state
+
+  return (
+    <div>
+      {/* Mobile chips */}
+      <div>
+        {Array.from({ length: 3 }, (_, i) => (
+          <div key={i} style={{ backgroundColor: i === active ? "rgba(210,207,160,0.12)" : "white" }}>
+            {/* Chip content here */}
+          </div>
+        ))}
+      </div>
+
+      {/* Vertical stepper */}
+      <div>
+        {Array.from({ length: 3 }, (_, i) => (
+          <div key={i} style={{ backgroundColor: i === active ? "rgba(210,207,160,0.15)" : "rgba(210,207,160,0.08)" }}>
+            {/* Stepper content here */}
+          </div>
+        ))}
+      </div>
+
+      {/* Any other "rgba(212,175,55,..." values */}
+      <div style={{ backgroundColor: "rgba(210,207,160,0.12)" }}>
+        {/* Other content here */}
+      </div>
+    </div>
+  );
+};
+
+export default HowItWorksInteractive;
