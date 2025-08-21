@@ -40,6 +40,7 @@ import {
   ShieldCheck,
   XCircle,
   ZoomIn,
+  MessageSquare,
 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import HowItWorksInteractive from "@/components/how-it-works"
@@ -527,6 +528,44 @@ radial-gradient(circle at 75px 75px, ${dot} 2px, transparent 2px)
           </div>
         </section>
 
+        {/* Template Gallery */}
+        <section
+          id="template-gallery"
+          aria-labelledby="template-gallery-heading"
+          className="py-20 md:py-24 lg:py-28"
+          style={{ backgroundColor: COLORS.BEIGE }}
+        >
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-4xl text-center">
+              <h2
+                id="template-gallery-heading"
+                className="text-2xl sm:text-3xl md:text-4xl font-bold"
+                style={{ color: COLORS.EMERALD }}
+              >
+                Professional Resume Templates
+              </h2>
+              <p className="mt-3 text-gray-700">
+                Choose from our collection of ATS-friendly, professionally designed resume templates
+              </p>
+            </div>
+
+            <div className="mt-8">
+              <TemplateGallery emerald={COLORS.EMERALD} gold={COLORS.GOLD} />
+            </div>
+
+            <div className="mt-8 text-center">
+              <Button
+                className="rounded-full px-8 py-6 font-semibold hover:shadow-md"
+                style={{ backgroundColor: COLORS.GOLD, color: COLORS.EMERALD }}
+                onClick={() => window.open("https://payments.cashfree.com/forms/craftmyresumepayment", "_blank")}
+              >
+                Get Your Professional Resume
+              </Button>
+              <p className="mt-3 text-sm text-gray-600">All templates included • ATS-optimized • 48-hour delivery</p>
+            </div>
+          </div>
+        </section>
+
         {/* Before/After Resume */}
         <section
           id="before-after"
@@ -550,8 +589,8 @@ radial-gradient(circle at 75px 75px, ${dot} 2px, transparent 2px)
 
             <div className="mt-8">
               <BeforeAfterShowcase
-                beforeSrc="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-08-10%20at%209.07.33%20PM-iqjuFv7QM4oW9L4wyagXgkeZaq3fZl.jpeg"
-                afterSrc="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-08-10%20at%209.07.29%20PM-1h4YesMFSg87XRZ59Vpks02qT5tJNG.jpeg"
+                beforeSrc="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot_20250813-140641%20%283%29-yxv3DX8KHpTGZVMmuHBDkxV3mozND4.png"
+                afterSrc="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-08-16%20at%208.01.09%20PM-76lSSRdbfGDnruzQSYIAhlLYWWiSGh.jpeg"
                 emerald={COLORS.EMERALD}
                 gold={COLORS.GOLD}
               />
@@ -745,6 +784,22 @@ radial-gradient(circle at 75px 75px, ${dot} 2px, transparent 2px)
             >
               What Our Clients Say
             </h2>
+
+            {/* WhatsApp Chat Testimonials - MOVED TO FIRST */}
+            <div className="mb-16">
+              <div className="text-center mb-8">
+                <div
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full"
+                  style={{ backgroundColor: "rgba(255,255,255,0.1)" }}
+                >
+                  <MessageSquare className="h-5 w-5 text-white" />
+                  <span className="text-white font-medium">Client Conversations</span>
+                </div>
+              </div>
+              <WhatsAppTestimonials />
+            </div>
+
+            {/* Text Testimonials - MOVED TO SECOND */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
               <TestimonialCard
                 quote="I landed interviews within a week. The resume was crisp, keyword-rich, and visually professional."
@@ -1236,6 +1291,129 @@ function TestimonialCard({
         <span>{role}</span>
       </CardFooter>
     </Card>
+  )
+}
+
+function WhatsAppTestimonials() {
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  const whatsappChats = [
+    {
+      id: 1,
+      image: "/whatsapp-testimonial-shishir.png",
+      alt: "WhatsApp conversation with Shishir showing ATS score of 76 and positive feedback",
+      caption: "Shishir received his resume with 76% ATS score: 'Looks neat, clean and informative'",
+    },
+    {
+      id: 2,
+      image: "/whatsapp-testimonial-ashutosh.png",
+      alt: "WhatsApp conversation with Ashutosh showing revision process and satisfaction",
+      caption: "Ashutosh got quick revisions and thanked us for the professional service",
+    },
+    {
+      id: 3,
+      image: "/whatsapp-testimonial-pramod.png",
+      alt: "WhatsApp conversation with Pramod showing final delivery and appreciation",
+      caption: "Pramod (IT Professional): 'It was great working with you. Great! Thank you!'",
+    },
+    {
+      id: 4,
+      image: "/whatsapp-testimonial-showkat.png",
+      alt: "WhatsApp conversation with Showkat showing cover letter delivery and referral promise",
+      caption: "Showkat: 'I will definitely refer my all friends to you only'",
+    },
+  ]
+
+  const nextChat = () => {
+    setCurrentIndex((prev) => (prev + 1) % whatsappChats.length)
+  }
+
+  const prevChat = () => {
+    setCurrentIndex((prev) => (prev - 1 + whatsappChats.length) % whatsappChats.length)
+  }
+
+  return (
+    <div className="w-full max-w-4xl mx-auto">
+      {/* Desktop Grid View */}
+      <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {whatsappChats.map((chat) => (
+          <div
+            key={chat.id}
+            className="group relative rounded-xl overflow-hidden bg-white shadow-lg hover:shadow-xl transition-all duration-300"
+          >
+            <div className="aspect-[9/16] overflow-hidden">
+              <img
+                src={chat.image || "/placeholder.svg"}
+                alt={chat.alt}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+            <div className="p-4">
+              <p className="text-xs text-gray-600 leading-relaxed">{chat.caption}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Mobile Carousel View */}
+      <div className="md:hidden">
+        <div className="relative">
+          {/* Chat Image */}
+          <div className="rounded-xl overflow-hidden bg-white shadow-lg mx-4">
+            <div className="aspect-[9/16] overflow-hidden">
+              <img
+                src={whatsappChats[currentIndex].image || "/placeholder.svg"}
+                alt={whatsappChats[currentIndex].alt}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="p-4">
+              <p className="text-xs text-gray-600 leading-relaxed">{whatsappChats[currentIndex].caption}</p>
+            </div>
+          </div>
+
+          {/* Navigation Arrows */}
+          <button
+            onClick={prevChat}
+            className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full shadow-lg flex items-center justify-center"
+            style={{ backgroundColor: "white", color: COLORS.EMERALD }}
+            aria-label="Previous chat"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+          <button
+            onClick={nextChat}
+            className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full shadow-lg flex items-center justify-center"
+            style={{ backgroundColor: "white", color: COLORS.EMERALD }}
+            aria-label="Next chat"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
+        </div>
+
+        {/* Dots Indicator */}
+        <div className="flex justify-center mt-4 gap-2">
+          {whatsappChats.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentIndex(index)}
+              className={`w-2 h-2 rounded-full transition-all ${index === currentIndex ? "w-6" : ""}`}
+              style={{
+                backgroundColor: index === currentIndex ? COLORS.GOLD : "rgba(255,255,255,0.5)",
+              }}
+              aria-label={`Go to chat ${index + 1}`}
+            />
+          ))}
+        </div>
+
+        {/* Chat Counter */}
+        <div className="text-center mt-3">
+          <span className="text-sm text-white/80">
+            {currentIndex + 1} of {whatsappChats.length} conversations
+          </span>
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -1805,6 +1983,284 @@ function BeforeAfterShowcase({
           </div>
         </DialogContent>
       </Dialog>
+    </div>
+  )
+}
+
+function TemplateGallery({ emerald, gold }: { emerald: string; gold: string }) {
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  const templates = [
+    {
+      id: 1,
+      name: "Executive Professional",
+      description: "Two-column layout with teal sidebar, perfect for senior roles",
+      image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ATS%20-%204-i58JwaVLdmmXi1GQ437BRKPiH2Uiym.png",
+      features: ["Clean hierarchy", "Skills sidebar", "Professional summary"],
+    },
+    {
+      id: 2,
+      name: "Minimalist Classic",
+      description: "Single-column, clean design for traditional industries",
+      image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ATS%20-%205-HAL2pIfWe7UvwqVEofyfAbtnK6d4BY.png",
+      features: ["Simple layout", "Easy to scan", "ATS-friendly"],
+    },
+    {
+      id: 3,
+      name: "Modern Executive",
+      description: "Professional photo layout for leadership positions",
+      image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ATS%20-%208-BE68RVtfZi6OglDA3IfZb5dmmXBDci.png",
+      features: ["Photo integration", "Key achievements", "Modern design"],
+    },
+    {
+      id: 4,
+      name: "Corporate Blue",
+      description: "Clean corporate design with blue accents",
+      image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ATS%20-%201-fSL2hAdJP9Xsn9wvscjDAokbobx1y0.png",
+      features: ["Corporate style", "Skills matrix", "Language proficiency"],
+    },
+    {
+      id: 5,
+      name: "Creative Timeline",
+      description: "Timeline-style layout for creative professionals",
+      image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ATS%20-%209-e8Zia52mTOF30QhIkQkctlpP6aRrOC.png",
+      features: ["Timeline format", "Key achievements", "Skills showcase"],
+    },
+    {
+      id: 6,
+      name: "Simple Professional",
+      description: "Ultra-clean design focusing on content",
+      image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ATS%20-%203-IbL7rXEG1OvLBjLQs6uQ7flOzBgN27.png",
+      features: ["Content-focused", "Minimal design", "Easy customization"],
+    },
+    {
+      id: 7,
+      name: "Strategic Leader",
+      description: "Creative design with photo for strategic roles",
+      image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ATS%20-%207-0u0RSF8QsHiBtFjVXxcQ0ULlfZkieq.png",
+      features: ["Photo layout", "Achievement focus", "Creative elements"],
+    },
+    {
+      id: 8,
+      name: "Tech Professional",
+      description: "Modern design with mint accents for tech roles",
+      image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ATS%20-%2010-OkDvdWOGOubF8rvmOFMmlhYZXSVyus.png",
+      features: ["Tech-focused", "Skills emphasis", "Modern layout"],
+    },
+    {
+      id: 9,
+      name: "Project Manager",
+      description: "Timeline design perfect for project management roles",
+      image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ATS%20-%202-0sVmjW6wh5LPk1ytlAw4qRLUifwuY4.png",
+      features: ["Timeline view", "Project highlights", "Skills matrix"],
+    },
+    {
+      id: 10,
+      name: "Product Manager",
+      description: "Comprehensive layout for product management roles",
+      image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ATS%20-%206-t5csTVXLRfha290220hMKjwX7Mtx3E.png",
+      features: ["Achievement focus", "Skills breakdown", "Visual elements"],
+    },
+    {
+      id: 11,
+      name: "Creative Designer",
+      description: "Purple-themed creative resume for design professionals",
+      image:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Template%20-%209-wzck4cEikYemVcPCUgil7mdvlj4h77.png",
+      features: ["Creative layout", "Skills visualization", "Portfolio focus"],
+    },
+    {
+      id: 12,
+      name: "Retail Professional",
+      description: "Clean, skills-focused design for retail and service roles",
+      image:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Template%20-%203-IMIO09cSMrIb9jtEIzj4sYL3bS2kS6.png",
+      features: ["Skills grid", "Certificates section", "Clean layout"],
+    },
+    {
+      id: 13,
+      name: "Real Estate Agent",
+      description: "Photo-centric design perfect for real estate professionals",
+      image:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Template%20-%206-dUI3LZRfgRD1TEsVkbvBWWp0FOXUeX.png",
+      features: ["Large photo", "Contact sidebar", "Achievement focus"],
+    },
+    {
+      id: 14,
+      name: "HR Professional",
+      description: "Modern dark theme for human resources roles",
+      image:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Template%20-%2011-MemsybgChxaByTJwqwmnI3CrbdCc5W.png",
+      features: ["Dark theme", "Photo integration", "Skills sections"],
+    },
+    {
+      id: 15,
+      name: "Business Executive",
+      description: "Executive-level design for senior business roles",
+      image:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Template%20-%204-MVuPXxRpXWNtKCWIQ7va1I8v2ItdQT.png",
+      features: ["Executive style", "Awards section", "Professional photo"],
+    },
+    {
+      id: 16,
+      name: "Digital Marketing",
+      description: "Colorful design perfect for marketing professionals",
+      image:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Template%20-%2010-daADPzwX13lZsld8NxywYnExFtht73.png",
+      features: ["Teal accents", "Skills sidebar", "Course highlights"],
+    },
+    {
+      id: 17,
+      name: "DevOps Engineer",
+      description: "Technical resume with clean blue design",
+      image:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Template%20-%208-kPEJ6EioUSIG3TC8WAmTgPFpmAwNi0.png",
+      features: ["Technical skills", "Project focus", "Clean layout"],
+    },
+    {
+      id: 18,
+      name: "IT Professional",
+      description: "Black and white design with photo for IT roles",
+      image:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Template%20-%205-pJFJk94Q9OwvaBOT2JOuduZLW1B7X5.png",
+      features: ["Dark sidebar", "Photo layout", "Certificates focus"],
+    },
+    {
+      id: 19,
+      name: "IT Project Manager",
+      description: "Minimalist black and white for project management",
+      image:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Template%20-%202-VXGHycVPA9FNI64CaOBvziitd4TDFi.png",
+      features: ["Minimalist design", "Skills bars", "Clean sections"],
+    },
+    {
+      id: 20,
+      name: "Service Professional",
+      description: "Orange-accented design for hospitality and service roles",
+      image:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Template%20-%207-WOPFZ4dXwt6FvOWbZpXkwlIS8tDMvB.png",
+      features: ["Color accents", "Skills tags", "Achievement focus"],
+    },
+  ]
+
+  const nextTemplate = () => {
+    setCurrentIndex((prev) => (prev + 1) % templates.length)
+  }
+
+  const prevTemplate = () => {
+    setCurrentIndex((prev) => (prev - 1 + templates.length) % templates.length)
+  }
+
+  return (
+    <div className="w-full">
+      {/* Desktop Grid View */}
+      <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {templates.map((template, index) => (
+          <div
+            key={template.id}
+            className="group relative rounded-xl border shadow-sm overflow-hidden bg-white hover:shadow-lg transition-all duration-300"
+            style={{ borderColor: "rgba(15,91,79,0.15)" }}
+          >
+            <div className="aspect-[3/4] overflow-hidden">
+              <img
+                src={template.image || "/placeholder.svg"}
+                alt={`${template.name} resume template`}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+            <div className="p-4">
+              <h3 className="font-semibold text-sm mb-1" style={{ color: emerald }}>
+                {template.name}
+              </h3>
+              <p className="text-xs text-gray-600 mb-2">{template.description}</p>
+              <div className="flex flex-wrap gap-1">
+                {template.features.slice(0, 2).map((feature, i) => (
+                  <span
+                    key={i}
+                    className="text-xs px-2 py-1 rounded-full"
+                    style={{ backgroundColor: "rgba(212,175,55,0.1)", color: emerald }}
+                  >
+                    {feature}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Mobile Carousel View */}
+      <div className="md:hidden">
+        <div className="relative">
+          {/* Template Card */}
+          <div className="rounded-xl border shadow-sm overflow-hidden bg-white mx-4">
+            <div className="aspect-[3/4] overflow-hidden">
+              <img
+                src={templates[currentIndex].image || "/placeholder.svg"}
+                alt={`${templates[currentIndex].name} resume template`}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="p-4">
+              <h3 className="font-semibold text-lg mb-2" style={{ color: emerald }}>
+                {templates[currentIndex].name}
+              </h3>
+              <p className="text-sm text-gray-600 mb-3">{templates[currentIndex].description}</p>
+              <div className="flex flex-wrap gap-2">
+                {templates[currentIndex].features.map((feature, i) => (
+                  <span
+                    key={i}
+                    className="text-xs px-2 py-1 rounded-full"
+                    style={{ backgroundColor: "rgba(212,175,55,0.1)", color: emerald }}
+                  >
+                    {feature}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Navigation Arrows */}
+          <button
+            onClick={prevTemplate}
+            className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full shadow-lg flex items-center justify-center"
+            style={{ backgroundColor: "white", color: emerald }}
+            aria-label="Previous template"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+          <button
+            onClick={nextTemplate}
+            className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full shadow-lg flex items-center justify-center"
+            style={{ backgroundColor: "white", color: emerald }}
+            aria-label="Next template"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
+        </div>
+
+        {/* Dots Indicator */}
+        <div className="flex justify-center mt-4 gap-2">
+          {templates.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentIndex(index)}
+              className={`w-2 h-2 rounded-full transition-all ${index === currentIndex ? "w-6" : ""}`}
+              style={{
+                backgroundColor: index === currentIndex ? emerald : "rgba(15,91,79,0.3)",
+              }}
+              aria-label={`Go to template ${index + 1}`}
+            />
+          ))}
+        </div>
+
+        {/* Template Counter */}
+        <div className="text-center mt-3">
+          <span className="text-sm text-gray-600">
+            {currentIndex + 1} of {templates.length} templates
+          </span>
+        </div>
+      </div>
     </div>
   )
 }
