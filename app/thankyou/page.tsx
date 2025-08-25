@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { CheckCircle, Upload, FileText, Plus, Trash2 } from "lucide-react"
+import { CheckCircle, Upload, FileText, Plus, Trash2, AlertCircle } from "lucide-react"
 import {
   Dialog,
   DialogContent,
@@ -18,12 +18,15 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Alert, AlertDescription } from "@/components/ui/alert"
 
 export default function ThankYouPage() {
   const [showBuildForm, setShowBuildForm] = useState(false)
   const [resumeFile, setResumeFile] = useState<File | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitSuccess, setSubmitSuccess] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
+  const [submitWarning, setSubmitWarning] = useState<string | null>(null)
 
   // Resume Update Form State
   const [updateForm, setUpdateForm] = useState({
@@ -57,13 +60,33 @@ export default function ThankYouPage() {
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
+      // Validate file type
+      const allowedTypes = [
+        "application/pdf",
+        "application/msword",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      ]
+      if (!allowedTypes.includes(file.type)) {
+        setSubmitError("Please upload a PDF, DOC, or DOCX file")
+        return
+      }
+
+      // Validate file size (10MB)
+      if (file.size > 10 * 1024 * 1024) {
+        setSubmitError("File size must be less than 10MB")
+        return
+      }
+
       setResumeFile(file)
+      setSubmitError(null)
     }
   }
 
   const handleUpdateSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
+    setSubmitError(null)
+    setSubmitWarning(null)
 
     try {
       const formData = new FormData()
@@ -80,11 +103,21 @@ export default function ThankYouPage() {
         body: formData,
       })
 
+      const result = await response.json()
+
       if (response.ok) {
         setSubmitSuccess(true)
+        if (result.message.includes("Note:")) {
+          setSubmitWarning(
+            "File upload had an issue, but your request was saved. Please email your resume to support@craftmyresume.com",
+          )
+        }
+      } else {
+        setSubmitError(result.error || "Failed to submit form")
       }
     } catch (error) {
       console.error("Error submitting form:", error)
+      setSubmitError("Network error. Please try again.")
     } finally {
       setIsSubmitting(false)
     }
@@ -93,6 +126,7 @@ export default function ThankYouPage() {
   const handleBuildSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
+    setSubmitError(null)
 
     try {
       const response = await fetch("/api/resume-build", {
@@ -103,12 +137,17 @@ export default function ThankYouPage() {
         body: JSON.stringify(buildForm),
       })
 
+      const result = await response.json()
+
       if (response.ok) {
         setSubmitSuccess(true)
         setShowBuildForm(false)
+      } else {
+        setSubmitError(result.error || "Failed to submit form")
       }
     } catch (error) {
       console.error("Error submitting form:", error)
+      setSubmitError("Network error. Please try again.")
     } finally {
       setIsSubmitting(false)
     }
@@ -145,6 +184,12 @@ export default function ThankYouPage() {
             <p className="text-gray-600 mb-4">
               We've received your information and will start working on your resume within 24 hours.
             </p>
+            {submitWarning && (
+              <Alert className="mb-4">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription className="text-sm">{submitWarning}</AlertDescription>
+              </Alert>
+            )}
             <p className="text-sm text-gray-500">You'll receive updates via email and WhatsApp.</p>
           </CardContent>
         </Card>
@@ -168,6 +213,14 @@ export default function ThankYouPage() {
       </div>
 
       <div className="max-w-4xl mx-auto px-4 py-8">
+        {/* Error Alert */}
+        {submitError && (
+          <Alert className="mb-6 border-red-200 bg-red-50">
+            <AlertCircle className="h-4 w-4 text-red-600" />
+            <AlertDescription className="text-red-700">{submitError}</AlertDescription>
+          </Alert>
+        )}
+
         {/* Resume Update Form */}
         <Card className="mb-8">
           <CardHeader>
@@ -215,7 +268,7 @@ export default function ThankYouPage() {
               </div>
 
               <div>
-                <Label htmlFor="resumeUpload">Upload Your Current Resume</Label>
+                <Label htmlFor="resumeUpload">Upload Your Current Resume (Optional)</Label>
                 <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md hover:border-emerald-400 transition-colors">
                   <div className="space-y-1 text-center">
                     <Upload className="mx-auto h-12 w-12 text-gray-400" />
@@ -239,6 +292,9 @@ export default function ThankYouPage() {
                     {resumeFile && <p className="text-sm text-emerald-600 font-medium">{resumeFile.name}</p>}
                   </div>
                 </div>
+                <p className="text-sm text-gray-500 mt-2">
+                  If file upload doesn't work, you can email your resume to support@craftmyresume.com
+                </p>
               </div>
 
               <div>

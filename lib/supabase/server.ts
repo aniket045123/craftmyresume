@@ -4,7 +4,7 @@ import { cookies } from "next/headers"
 export function createSupabaseServerClient() {
   const cookieStore = cookies()
 
-  return createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!, {
+  return createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, {
     cookies: {
       getAll() {
         return cookieStore.getAll()
@@ -20,4 +20,22 @@ export function createSupabaseServerClient() {
       },
     },
   })
+}
+
+export async function getServerSession() {
+  const supabase = createSupabaseServerClient()
+  try {
+    const {
+      data: { session },
+      error,
+    } = await supabase.auth.getSession()
+    if (error) {
+      console.error("Session error:", error)
+      return null
+    }
+    return session
+  } catch (error) {
+    console.error("Failed to get session:", error)
+    return null
+  }
 }

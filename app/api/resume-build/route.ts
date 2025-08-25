@@ -6,47 +6,27 @@ export async function POST(request: NextRequest) {
     const supabase = createSupabaseServerClient()
     const body = await request.json()
 
-    const {
-      fullName,
-      email,
-      phone,
-      address,
-      linkedinUrl,
-      portfolioUrl,
-      professionalSummary,
-      targetRole,
-      targetIndustry,
-      workExperience,
-      education,
-      skills,
-      certifications,
-      projects,
-      languages,
-      achievements,
-      additionalNotes,
-    } = body
-
     // Insert into database
     const { data, error } = await supabase
       .from("resume_builds")
       .insert({
-        full_name: fullName,
-        email,
-        phone,
-        address,
-        linkedin_url: linkedinUrl,
-        portfolio_url: portfolioUrl,
-        professional_summary: professionalSummary,
-        target_role: targetRole,
-        target_industry: targetIndustry,
-        work_experience: workExperience,
-        education,
-        skills,
-        certifications,
-        projects,
-        languages,
-        achievements,
-        additional_notes: additionalNotes,
+        full_name: body.fullName,
+        email: body.email,
+        phone: body.phone,
+        address: body.address,
+        linkedin_url: body.linkedinUrl,
+        portfolio_url: body.portfolioUrl,
+        professional_summary: body.professionalSummary,
+        target_role: body.targetRole,
+        target_industry: body.targetIndustry,
+        work_experience: body.workExperience,
+        education: body.education,
+        skills: body.skills,
+        certifications: body.certifications,
+        projects: body.projects,
+        languages: body.languages,
+        achievements: body.achievements,
+        additional_notes: body.additionalNotes,
         order_id: `BUILD-${Date.now()}`, // Generate order ID
         status: "pending",
       })
@@ -56,9 +36,6 @@ export async function POST(request: NextRequest) {
       console.error("Database error:", error)
       return NextResponse.json({ error: "Database error" }, { status: 500 })
     }
-
-    // Send notification email (optional)
-    // You can integrate with Resend here to notify your team
 
     return NextResponse.json({
       success: true,
